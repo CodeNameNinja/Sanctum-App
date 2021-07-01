@@ -18,10 +18,10 @@ use App\Http\Controllers\Auth\AuthController;
 
 // Protected Routes
 Route::group(['middleware' => ['auth:sanctum']],function(){
-    Route::patch('/products/{id}', [ProductController::class, 'show']);
-    Route::delete('/products/{id}', [ProductController::class, 'show']);
-    Route::post('/products', [ProductController::class, 'show']);
-    // Route::resource('products', ProductController::class);
+    Route::patch('/products/{id}', [ProductController::class, 'update']);
+    Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+    Route::post('/products', [ProductController::class, 'create']);
+    Route::post('/logout',[AuthController::class,'logout']);
 });
 // Public Routes
 Route::get('/products/search/{name}', [ProductController::class, 'search']);
@@ -30,6 +30,7 @@ Route::get('/products/{id}', [ProductController::class, 'show']);
 
 Route::group(['namespace' => 'Auth'], function(){
     Route::post('/register',[AuthController::class, 'register']);
+    Route::post('/login',[AuthController::class, 'login']);
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

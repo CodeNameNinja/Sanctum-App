@@ -24,7 +24,7 @@ class ProductController extends Controller
      */
     public function create(Request $request)
     {
-        $request->validation([
+        $request->validate([
             'name' => 'required',
             'slug' => 'required',
             'price' => 'required',
