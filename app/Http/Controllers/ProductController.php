@@ -19,17 +19,17 @@ class ProductController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     * @param Request request
      * @return collection new product
      */
-    public function create()
+    public function create(Request $request)
     {
-        return Product::create([
-            'name' => 'Product-One',
-            'slug' => 'Product-One',
-            'description' => 'Product-One',
-            'price' => 5.99,
+        $request->validation([
+            'name' => 'required',
+            'slug' => 'required',
+            'price' => 'required',
         ]);
+        return Product::create($request->all());
     }
 
     /**
@@ -51,7 +51,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        return Product::find($id);
     }
 
     /**
@@ -74,7 +74,9 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $product = Product::find($id);
+        $product->update($request->all());
+        return $product;
     }
 
     /**
@@ -85,6 +87,16 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Product::destroy($id);
+    }
+    /**
+     * Search for a name
+     *
+     * @param  str  $name
+     * @return \Illuminate\Http\Response
+     */
+    public function search($name)
+    {
+        return Product::where('name', 'like', '%'.$name.'%')->get();
     }
 }
